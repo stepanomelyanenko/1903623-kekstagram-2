@@ -65,21 +65,21 @@ const generatePublicationId = createIdGenerator();
 const generatePhotoId = createIdGenerator();
 const generateCommentId = createRandomIdFromRangeGenerator(1, 2 ** 20);
 
-const createComment = () => ({
+const generateComment = () => ({
   id: generateCommentId(),
   avatar: `img/avatar-${getRandomNumber(1, 6)}.svg`,
   message: commentSentences[getRandomNumber(0, commentSentences.length - 1)],
   name: names[getRandomNumber(0, names.length - 1)]
 });
 
-const createPublication = () => ({
+const generatePublication = () => ({
   id: generatePublicationId(),
   url: `photos/${generatePhotoId()}.jpg`,
   description: descriptionSentences[getRandomNumber(0, descriptionSentences.length - 1)],
   likes: getRandomNumber(15, 200),
-  comments: Array.from({length: getRandomNumber(1, 5)}, createComment)
+  comments: Array.from({length: getRandomNumber(1, 5)}, generateComment)
 });
 
-const publications = Array.from({length: 25}, () => createPublication());
+const generatePictures = (amount) => (Array.from({length: amount}, () => generatePublication()));
 
-export {publications};
+export {generatePictures};
