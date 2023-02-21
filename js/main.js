@@ -1,7 +1,9 @@
 import {generatePictures} from './data.js';
-import {showPictures, hidePictures} from './pictures.js';
-import {openBigPicture, closeBigPicture} from './big-picture.js';
+import {showPictures} from './pictures.js';
+import {openBigPicture} from './big-picture.js';
+import './new-photo.js';
+import  './picture-form-validation.js';
 
 const pictures = generatePictures(25);
 showPictures(pictures);
-openBigPicture(pictures[1]);
+// openBigPicture(pictures[1]);
