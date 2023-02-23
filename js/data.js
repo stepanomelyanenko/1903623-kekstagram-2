@@ -77,9 +77,10 @@ const generatePublication = () => ({
   url: `photos/${generatePhotoId()}.jpg`,
   description: descriptionSentences[getRandomNumber(0, descriptionSentences.length - 1)],
   likes: getRandomNumber(15, 200),
-  comments: Array.from({length: getRandomNumber(5, 15)}, generateComment)
+  comments: Array.from({length: getRandomNumber(0, 24)}, generateComment)
 });
 
 const generatePictures = (amount) => (Array.from({length: amount}, () => generatePublication()));
+const pictures = generatePictures(25);
 
-export {generatePictures};
+export {pictures};
