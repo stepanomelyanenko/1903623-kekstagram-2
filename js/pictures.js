@@ -1,12 +1,16 @@
+import {openBigPicture} from './big-picture.js';
+import {pictures} from './data.js';
+
 const picturesContainer = document.querySelector('.pictures');
 const picturesListFragment = document.createDocumentFragment();
 const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const showPictures = (pictures) => {
-  pictures.forEach(({url, comments, likes}) => {
+const showPictures = (photos) => {
+  photos.forEach(({url, comments, likes}, index) => {
     const pictureElement = pictureTemplate.cloneNode(true);
+    pictureElement.querySelector('.picture__img').setAttribute('photo-index', index);
     pictureElement.querySelector('.picture__img').src = url;
     pictureElement.querySelector('.picture__likes').textContent = likes;
     pictureElement.querySelector('.picture__comments').textContent = comments.length;
@@ -16,8 +20,13 @@ const showPictures = (pictures) => {
   picturesContainer.appendChild(picturesListFragment);
 };
 
-const hidePictures = () => {
-  picturesContainer.removeChild(picturesListFragment);
+const onPhotoListClick = function (evt) {
+  if (evt.target.nodeName === 'IMG') {
+    evt.preventDefault();
+    openBigPicture(pictures[evt.target.getAttribute('photo-index')]);
+  }
 };
 
-export {showPictures, hidePictures};
+picturesContainer.addEventListener('click', onPhotoListClick);
+
+export {showPictures};

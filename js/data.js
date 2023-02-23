@@ -81,5 +81,6 @@ const generatePublication = () => ({
 });
 
 const generatePictures = (amount) => (Array.from({length: amount}, () => generatePublication()));
+const pictures = generatePictures(25);
 
-export {generatePictures};
+export {pictures};
