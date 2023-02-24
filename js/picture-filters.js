@@ -1,7 +1,7 @@
 const DEFAULT_FILTER_VALUE = 100;
 const Filters = {
   none: {
-    effect: '0',
+    effect: '',
     minValue: 0,
     maxValue: 100,
     step: 1,
@@ -61,8 +61,11 @@ const effectLevelValue = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectsRadioElement = document.querySelector('.img-upload__effects');
 
+let currentFilter = Filters.none;
 let currentFilterClass = '';
 let currentFilterValue = DEFAULT_FILTER_VALUE;
+
+sliderElement.classList.add('visually-hidden');
 
 noUiSlider.create(sliderElement, {
   range: {
@@ -90,10 +93,21 @@ const changeFilter = (effect) => {
     previewPhoto.classList.remove(currentFilterClass);
   }
 
+  currentFilter = effect;
   currentFilterValue = effect.maxValue;
-  currentFilterClass = `effects__preview--${effect.effect}`;
-  previewPhoto.classList.add(currentFilterClass);
-  previewPhoto.style['transform'] = `${effect.filter}(${effect.maxValue}${effect.measurement})`;
+
+  if (effect.effect !== '') {
+    currentFilterClass = `effects__preview--${effect.effect}`;
+    previewPhoto.classList.add(currentFilterClass);
+  }
+
+  if (effect.filter !== Filters.none.filter) {
+    previewPhoto.style['filter'] = `${effect.filter}(${effect.maxValue}${effect.measurement})`;
+  }
+  else {
+    previewPhoto.style['filter'] = '';
+  }
+
   effectLevelValue.value = currentFilterValue;
 
   if (effect.hideFilter) {
@@ -101,6 +115,20 @@ const changeFilter = (effect) => {
   } else {
     sliderElement.classList.remove('visually-hidden');
   }
+
+  sliderElement.noUiSlider.updateOptions({
+    range: {
+      min: effect.minValue,
+      max: effect.maxValue
+    },
+    start: effect.maxValue,
+    step: effect.step
+  });
+};
+
+const changeFilterValue = (value) => {
+  currentFilterValue = value;
+  previewPhoto.style['filter'] = `${currentFilter.filter}(${value}${currentFilter.measurement})`;
 };
 
 const onEffectsRadioChange = (evt) => {
@@ -108,8 +136,25 @@ const onEffectsRadioChange = (evt) => {
   changeFilter(Filters[value]);
 };
 
-const resetFilters = () => (changeFilter(Filters.none));
+const resetRadiosValue = () => {
+  const filterRadios = effectsRadioElement.querySelectorAll('.effects__radio');
+  filterRadios.forEach((element) => {
+    element.checked = false;
+  });
+  filterRadios[0].checked = true;
+};
+
+const resetFilters = () => {
+  changeFilter(Filters.none);
+  resetRadiosValue();
+};
 
 effectsRadioElement.addEventListener('change', onEffectsRadioChange);
+
+sliderElement.noUiSlider.on('update', () => {
+  const sliderValue = sliderElement.noUiSlider.get();
+  effectLevelValue.value = sliderValue;
+  changeFilterValue(sliderValue);
+});
 
 export {resetFilters};
