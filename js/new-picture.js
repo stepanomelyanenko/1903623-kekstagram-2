@@ -1,5 +1,6 @@
 import {isEscapeKey} from './utils.js';
-import {resetPhotoScale} from './image-scale.js';
+import {resetPhotoScale} from './picture-scale.js';
+import {resetFilters} from './picture-filters.js';
 
 const uploadPhotoInput = document.querySelector('#upload-file');
 const uploadPhotoOverlay = document.querySelector('.img-upload__overlay');
@@ -41,6 +42,7 @@ function closeUploadOverlay() {
 
   uploadPhotoInput.value = null;
   resetPhotoScale();
+  resetFilters();
 }
 
 

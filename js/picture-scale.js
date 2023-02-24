@@ -8,7 +8,7 @@ const previewPhoto = document.querySelector('.img-upload__preview');
 
 let photoScaleValue = PHOTO_SCALE_DEFAULT;
 
-const setScaleAttribute = () => (previewPhoto.setAttribute('style', `transform: scale(${photoScaleValue/100})`));
+const setScaleAttribute = () => (previewPhoto.style['transform'] = `scale(${photoScaleValue/100})`);
 
 const onScaleSmallerClick = () => {
   if (photoScaleValue === 25) {
