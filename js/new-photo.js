@@ -1,4 +1,5 @@
 import {isEscapeKey} from './utils.js';
+import {resetPhotoScale} from './image-scale.js';
 
 const uploadPhotoInput = document.querySelector('#upload-file');
 const uploadPhotoOverlay = document.querySelector('.img-upload__overlay');
@@ -39,6 +40,7 @@ function closeUploadOverlay() {
   uploadCancelBtn.removeEventListener('click', onUploadCancelBtnClick);
 
   uploadPhotoInput.value = null;
+  resetPhotoScale();
 }
 
 
