@@ -1,5 +1,4 @@
 import {openBigPicture} from './big-picture.js';
-import {pictures} from './data.js';
 
 const picturesContainer = document.querySelector('.pictures');
 const picturesListFragment = document.createDocumentFragment();
@@ -7,7 +6,10 @@ const pictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
+let pictures = [];
+
 const showPictures = (photos) => {
+  pictures = photos;
   photos.forEach(({url, comments, likes}, index) => {
     const pictureElement = pictureTemplate.cloneNode(true);
     pictureElement.querySelector('.picture__img').setAttribute('photo-index', index);

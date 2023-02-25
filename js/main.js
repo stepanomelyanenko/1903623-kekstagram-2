@@ -1,6 +1,9 @@
-import {pictures} from './data.js';
 import {showPictures} from './pictures.js';
 import './new-picture.js';
 import  './picture-form-validation.js';
+import {getData} from './api.js';
+import {showError} from './error.js';
 
-showPictures(pictures);
+getData((pictures) => {
+  showPictures(pictures);
+}, showError);
