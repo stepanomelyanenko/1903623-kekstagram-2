@@ -45,7 +45,6 @@ function closeUploadOverlay() {
   resetFilters();
 }
 
-
 uploadPhotoInput.addEventListener('change', onUploadPhotoInputChange);
 
 export {openUploadOverlay, closeUploadOverlay};

@@ -1,10 +1,16 @@
 import {checkStringLength} from './utils.js';
+import {sendData} from './api.js';
+import {showError} from './error.js';
+import {showSuccess} from './success.js';
+import {closeUploadOverlay} from './new-picture.js';
 
 const pictureForm = document.querySelector('#upload-select-image');
 
 const MAX_HASH_TAGS_VALUE = 5;
 const MAX_HASH_TAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 120;
+
+const submitButton = document.querySelector('#upload-submit');
 
 const validateHashTags = (hashTagsString) => {
   if (hashTagsString.length === 0) {
@@ -37,13 +43,38 @@ pristine.addValidator(
   'Максимум 120 символов!'
 );
 
+const blockSubmitButton = (text) => {
+  submitButton.disabled = true;
+  submitButton.textContent = text;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Сохранить';
+};
+
+
 pictureForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
-    console.log('Можно отправлять');
+    blockSubmitButton('Сохраняю...');
+    sendData(
+      () => {
+        closeUploadOverlay();
+        showSuccess('Публикация отправлена');
+        unblockSubmitButton();
+      },
+      () => {
+        closeUploadOverlay();
+        showError('Ошибка отправки. Попробуйте позже');
+        unblockSubmitButton();
+      },
+      new FormData(evt.target)
+    );
   } else {
-    console.log('Форма невалидна');
+    blockSubmitButton('Неправильно заполнены поля!');
+    setTimeout(unblockSubmitButton, 3000);
   }
 });
