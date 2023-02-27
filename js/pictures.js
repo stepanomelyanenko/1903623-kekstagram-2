@@ -22,6 +22,12 @@ const showPictures = (photos) => {
   picturesContainer.appendChild(picturesListFragment);
 };
 
+const hidePictures = () => {
+  picturesContainer.querySelectorAll('.picture').forEach( (pictureElement) => {
+    pictureElement.remove();
+  });
+};
+
 const onPhotoListClick = function (evt) {
   if (evt.target.nodeName === 'IMG') {
     evt.preventDefault();
@@ -31,4 +37,4 @@ const onPhotoListClick = function (evt) {
 
 picturesContainer.addEventListener('click', onPhotoListClick);
 
-export {showPictures};
+export {showPictures, hidePictures};
