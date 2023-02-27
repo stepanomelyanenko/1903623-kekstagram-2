@@ -1,5 +1,3 @@
-const getRandomNumber = (min, max) => (Math.floor(Math.random() * (max - min) + min));
-
 const checkStringLength = (str, maxLength) => (str.length <= maxLength);
 
 const shuffleArray = (array) => (array.sort(() => Math.random() - 0.5));
@@ -15,4 +13,4 @@ function debounce (callback, timeoutDelay = 500) {
   };
 }
 
-export {getRandomNumber, checkStringLength, shuffleArray, isEscapeKey, debounce};
+export {checkStringLength, shuffleArray, isEscapeKey, debounce};

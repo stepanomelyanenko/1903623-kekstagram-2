@@ -18,6 +18,13 @@ const showError = (errorText) => {
     closeError();
   }, {once: true});
 
+  errorElement.addEventListener('click', (evt) => {
+    if (evt.target.nodeName !== 'DIV') {
+      evt.preventDefault();
+      closeError();
+    }
+  }, {once: true});
+
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();

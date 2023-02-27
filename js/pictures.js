@@ -1,6 +1,6 @@
 import {openBigPicture} from './big-picture.js';
 
-const picturesContainer = document.querySelector('.pictures');
+const picturesElement = document.querySelector('.pictures');
 const picturesListFragment = document.createDocumentFragment();
 const pictureTemplate = document.querySelector('#picture')
   .content
@@ -19,11 +19,11 @@ const showPictures = (photos) => {
     picturesListFragment.appendChild(pictureElement);
   });
 
-  picturesContainer.appendChild(picturesListFragment);
+  picturesElement.appendChild(picturesListFragment);
 };
 
 const hidePictures = () => {
-  picturesContainer.querySelectorAll('.picture').forEach( (pictureElement) => {
+  picturesElement.querySelectorAll('.picture').forEach( (pictureElement) => {
     pictureElement.remove();
   });
 };
@@ -35,6 +35,6 @@ const onPhotoListClick = function (evt) {
   }
 };
 
-picturesContainer.addEventListener('click', onPhotoListClick);
+picturesElement.addEventListener('click', onPhotoListClick);
 
 export {showPictures, hidePictures};

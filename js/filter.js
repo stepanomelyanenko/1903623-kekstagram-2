@@ -4,14 +4,14 @@ import {hidePictures, showPictures} from './pictures.js';
 const RERENDER_DELAY = 500;
 
 const Filters = {
-  default: 'filter-default',
-  random: 'filter-random',
-  mostCommented: 'filter-discussed'
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  MOST_COMMENTED: 'filter-discussed'
 };
 
 const filters = document.querySelector('.img-filters');
 
-let currentFilter = Filters.default;
+let currentFilter = Filters.DEFAULT;
 let filteredDefaultPictures = [];
 
 const compareByComments = (pictureA, pictureB) => (pictureB.comments.length - pictureA.comments.length);
@@ -35,22 +35,22 @@ const onFiltersFormClick = function (evt) {
       currentFilter = evt.target.id;
 
       switch (currentFilter) {
-        case Filters.default:
+        case Filters.DEFAULT:
           changePhotos(debounce(() => {
             hidePictures();
             showPictures(filteredDefaultPictures);
           }, RERENDER_DELAY));
           break;
-        case Filters.random:
+        case Filters.RANDOM:
           changePhotos(debounce(() => {
             hidePictures();
             showPictures(shuffleArray(filteredDefaultPictures.slice()).slice(10));
           }, RERENDER_DELAY));
           break;
-        case Filters.mostCommented:
+        case Filters.MOST_COMMENTED:
           changePhotos(debounce(() => {
             hidePictures();
-            showPictures(shuffleArray(filteredDefaultPictures.slice().sort(compareByComments)));
+            showPictures(filteredDefaultPictures.slice().sort(compareByComments));
           }, RERENDER_DELAY));
           break;
         default:

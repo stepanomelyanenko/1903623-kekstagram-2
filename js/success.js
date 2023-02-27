@@ -18,6 +18,13 @@ const showSuccess = (successText) => {
     closeSuccess();
   }, {once: true});
 
+  successElement.addEventListener('click', (evt) => {
+    if (evt.target.nodeName !== 'DIV') {
+      evt.preventDefault();
+      closeSuccess();
+    }
+  }, {once: true});
+
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {
       evt.preventDefault();

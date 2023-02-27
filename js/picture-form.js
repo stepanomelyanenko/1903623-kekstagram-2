@@ -4,13 +4,26 @@ import {showError} from './error.js';
 import {showSuccess} from './success.js';
 import {closeUploadOverlay} from './new-picture.js';
 
-const pictureForm = document.querySelector('#upload-select-image');
-
 const MAX_HASH_TAGS_VALUE = 5;
 const MAX_HASH_TAG_LENGTH = 20;
 const MAX_COMMENT_LENGTH = 120;
 
+const pictureForm = document.querySelector('#upload-select-image');
 const submitButton = document.querySelector('#upload-submit');
+
+const checkDuplicates = (hashTags) => {
+  const set = new Set(hashTags);
+
+  const duplicates = hashTags.filter((hashTag) => {
+    if (set.has(hashTag)) {
+      set.delete(hashTag);
+    } else {
+      return hashTag;
+    }
+  });
+
+  return duplicates.length !== 0;
+};
 
 const validateHashTags = (hashTagsString) => {
   if (hashTagsString.length === 0) {
@@ -19,7 +32,7 @@ const validateHashTags = (hashTagsString) => {
 
   const hashTags = hashTagsString.toLowerCase().split(' ');
 
-  if (hashTags.length > MAX_HASH_TAGS_VALUE) {
+  if (hashTags.length > MAX_HASH_TAGS_VALUE || checkDuplicates(hashTags)) {
     return false;
   }
 
@@ -67,7 +80,7 @@ pictureForm.addEventListener('submit', (evt) => {
         unblockSubmitButton();
       },
       () => {
-        closeUploadOverlay();
+        closeUploadOverlay(false);
         showError('Ошибка отправки. Попробуйте позже');
         unblockSubmitButton();
       },

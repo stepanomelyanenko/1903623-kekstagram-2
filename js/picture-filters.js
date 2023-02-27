@@ -1,5 +1,5 @@
 const DEFAULT_FILTER_VALUE = 100;
-const Filters = {
+const filters = {
   none: {
     effect: '',
     minValue: 0,
@@ -56,12 +56,12 @@ const Filters = {
   }
 };
 
-const previewPhoto = document.querySelector('.img-upload__preview');
-const effectLevelValue = document.querySelector('.effect-level__value');
+const previewPhotoElement = document.querySelector('.img-upload__preview');
+const effectLevelValueElement = document.querySelector('.effect-level__value');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectsRadioElement = document.querySelector('.img-upload__effects');
 
-let currentFilter = Filters.none;
+let currentFilter = filters.none;
 let currentFilterClass = '';
 let currentFilterValue = DEFAULT_FILTER_VALUE;
 
@@ -90,7 +90,7 @@ noUiSlider.create(sliderElement, {
 
 const changeFilter = (effect) => {
   if (currentFilterClass !== '') {
-    previewPhoto.classList.remove(currentFilterClass);
+    previewPhotoElement.classList.remove(currentFilterClass);
   }
 
   currentFilter = effect;
@@ -98,17 +98,17 @@ const changeFilter = (effect) => {
 
   if (effect.effect !== '') {
     currentFilterClass = `effects__preview--${effect.effect}`;
-    previewPhoto.classList.add(currentFilterClass);
+    previewPhotoElement.classList.add(currentFilterClass);
   }
 
-  if (effect.filter !== Filters.none.filter) {
-    previewPhoto.style['filter'] = `${effect.filter}(${effect.maxValue}${effect.measurement})`;
+  if (effect.filter !== filters.none.filter) {
+    previewPhotoElement.style['filter'] = `${effect.filter}(${effect.maxValue}${effect.measurement})`;
   }
   else {
-    previewPhoto.style['filter'] = '';
+    previewPhotoElement.style['filter'] = '';
   }
 
-  effectLevelValue.value = currentFilterValue;
+  effectLevelValueElement.value = currentFilterValue;
 
   if (effect.hideFilter) {
     sliderElement.classList.add('visually-hidden') ;
@@ -128,12 +128,12 @@ const changeFilter = (effect) => {
 
 const changeFilterValue = (value) => {
   currentFilterValue = value;
-  previewPhoto.style['filter'] = `${currentFilter.filter}(${value}${currentFilter.measurement})`;
+  previewPhotoElement.style['filter'] = `${currentFilter.filter}(${value}${currentFilter.measurement})`;
 };
 
 const onEffectsRadioChange = (evt) => {
   const value = evt.target.value;
-  changeFilter(Filters[value]);
+  changeFilter(filters[value]);
 };
 
 const resetRadiosValue = () => {
@@ -145,7 +145,7 @@ const resetRadiosValue = () => {
 };
 
 const resetFilters = () => {
-  changeFilter(Filters.none);
+  changeFilter(filters.none);
   resetRadiosValue();
 };
 
@@ -153,7 +153,7 @@ effectsRadioElement.addEventListener('change', onEffectsRadioChange);
 
 sliderElement.noUiSlider.on('update', () => {
   const sliderValue = sliderElement.noUiSlider.get();
-  effectLevelValue.value = sliderValue;
+  effectLevelValueElement.value = sliderValue;
   changeFilterValue(sliderValue);
 });
 
