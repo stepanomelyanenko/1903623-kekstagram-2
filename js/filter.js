@@ -1,7 +1,7 @@
 import {debounce, shuffleArray} from './utils.js';
 import {hidePictures, showPictures} from './pictures.js';
 
-const RERENDER_DELAY = 1;
+const RERENDER_DELAY = 500;
 
 const Filters = {
   default: 'filter-default',
@@ -22,6 +22,10 @@ const showFilters = (pictures) => {
 };
 
 const onFiltersFormClick = function (evt) {
+  const changePhotos = (cb) => {
+    cb();
+  };
+
   if (evt.target.nodeName === 'BUTTON') {
     evt.preventDefault();
 
@@ -32,20 +36,28 @@ const onFiltersFormClick = function (evt) {
 
       switch (currentFilter) {
         case Filters.default:
-          hidePictures();
-          showPictures(filteredDefaultPictures);
+          changePhotos(debounce(() => {
+            hidePictures();
+            showPictures(filteredDefaultPictures);
+          }, RERENDER_DELAY));
           break;
         case Filters.random:
-          hidePictures();
-          showPictures(shuffleArray(filteredDefaultPictures.slice()).slice(10));
+          changePhotos(debounce(() => {
+            hidePictures();
+            showPictures(shuffleArray(filteredDefaultPictures.slice()).slice(10));
+          }, RERENDER_DELAY));
           break;
         case Filters.mostCommented:
-          hidePictures();
-          showPictures(filteredDefaultPictures.slice().sort(compareByComments));
+          changePhotos(debounce(() => {
+            hidePictures();
+            showPictures(shuffleArray(filteredDefaultPictures.slice().sort(compareByComments)));
+          }, RERENDER_DELAY));
           break;
         default:
-          hidePictures();
-          showPictures(filteredDefaultPictures);
+          changePhotos(debounce(() => {
+            hidePictures();
+            showPictures(shuffleArray(filteredDefaultPictures));
+          }, RERENDER_DELAY));
       }
     }
   }
