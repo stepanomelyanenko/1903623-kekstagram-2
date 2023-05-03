@@ -53,7 +53,7 @@ pristine.addValidator(
 pristine.addValidator(
   pictureForm.querySelector('.text__description'),
   validateComment,
-  'Максимум 120 символов!'
+  'Максимум 120 символов в описании!'
 );
 
 const blockSubmitButton = (text) => {
